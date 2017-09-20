@@ -8,7 +8,7 @@
                     <div class="panel-heading">Contacts</div>
 
                     <div class="panel-body">
-                        <a href="#">Add Contact</a>
+                        <a href="{{ route('contacts.create') }}">Add Contact</a>
                     </div>
 
                 </div>

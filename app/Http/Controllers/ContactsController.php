@@ -24,7 +24,7 @@ class ContactsController extends Controller
      */
     public function create()
     {
-        //
+        return view('contacts.newContactForm');
     }
 
     /**
@@ -35,7 +35,19 @@ class ContactsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'fullName' => 'required|max:255|string',
+            'email' => 'required|email',
+            'phoneNumber' => 'required|numeric',
+        ]);
+
+        $contact = new Contact();
+        $contact->fill($request->input());
+        $contact->save();
+
+        return redirect()->route('contacts.index');
+
+
     }
 
     /**
