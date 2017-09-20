@@ -19,8 +19,14 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => 'auth'], function (){
-    //Route::get('/contacts', 'ContactsController@index')->name('contacts');
+Route::group(['middleware' => ['auth','checkAdmin']], function (){
+    Route::post('/contacts/{id}', 'ContactsController@update')->name('contacts.update');
 
-    Route::resource('contacts', 'ContactsController');
+    Route::resource('contacts', 'ContactsController', ['except' => [
+         'update', 'destroy'
+    ]]);
+        Route::post('/contacts/{id}', 'ContactsController@update')->name('contacts.update');
+        Route::post('/contacts/delete/{id}', 'ContactsController@destroy')->name('contacts.destroy');
+
+
 });

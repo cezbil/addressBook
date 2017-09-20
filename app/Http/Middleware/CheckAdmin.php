@@ -16,12 +16,11 @@ class CheckAdmin
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $user = Auth::id();
-        //dd($user);
-        if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+        if(Auth::check())  { //If is logged in
+            $user = Auth::user();
+            if($user->admin === 1)
+                return $next($request);
         }
-
-        return $next($request);
+        return redirect('/');
     }
 }

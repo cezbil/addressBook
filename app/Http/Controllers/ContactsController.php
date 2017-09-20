@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contact;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class ContactsController extends Controller
@@ -69,7 +70,15 @@ class ContactsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $contact = Contact::find($id);
+        return view('contacts.editContactForm',  [
+            'contact'=> $contact,
+            'id' => $id,
+            'fullName' => $contact->fullName,
+            'email' => $contact->email,
+            'phoneNumber' => $contact->phoneNumber,
+
+        ]);
     }
 
     /**
@@ -81,7 +90,19 @@ class ContactsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'fullName' => 'max:255|string',
+            'email' => 'email',
+            'phoneNumber' => 'numeric',
+        ]);
+
+        $contact = Contact::find($id);
+        $contact->phoneNumber = $request->input('phoneNumber');
+        $contact->fullName =$request->input('fullName');
+        $contact->email = $request->input('email');
+        $contact->save();
+
+        return redirect()->route('contacts.index');
     }
 
     /**
@@ -92,6 +113,10 @@ class ContactsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $contact = Contact::find($id);
+        $contact->delete();
+
+        return redirect()->route('contacts.index');
+
     }
 }

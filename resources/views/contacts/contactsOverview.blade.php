@@ -36,17 +36,18 @@
                                         <td>{{$contact->phoneNumber}}</td>
 
                                         <td>
-                                            <a href="#">
+                                            <a href="{{ route('contacts.edit', ['id' => $contact->id]) }}">
+
                                                 <div class="btn btn-primary">
                                                     Edit
                                                 </div>
                                             </a>
-
-                                            <a href="#">
-                                                <div class="btn btn-danger">
+                                            <form class="form-horizontal" role="form" method="POST" action="{{route('contacts.destroy', ['id' => $contact->id]) }}">
+                                                {{csrf_field()}}
+                                                <button type="submit" class="btn btn-danger">
                                                     Delete
-                                                </div>
-                                            </a>
+                                                </button>
+                                            </form>
                                         </td>
                                         <td>
 
@@ -57,11 +58,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <a href="#">
-                                <div class="btn btn-default">
-                                    Back
-                                </div>
-                            </a>
+
                         </div>
                     </div>
 
